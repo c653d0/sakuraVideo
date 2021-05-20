@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/animationTimePagerFragment"
-        android:name="com.c653d0.kotlinstudy.fragment.AnimationTimePagerFragment"
+        android:name="com.c653d0.kotlinstudy.home.AnimationTimePagerFragment"
         android:label="fragment_animation_time_pager"
         tools:layout="@layout/fragment_animation_home_page" />
 </navigation>

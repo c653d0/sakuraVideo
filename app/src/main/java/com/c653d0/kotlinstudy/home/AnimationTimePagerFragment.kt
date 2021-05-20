@@ -1,4 +1,4 @@
-package com.c653d0.kotlinstudy.fragment
+package com.c653d0.kotlinstudy.home
 
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.android.volley.Request
 import com.android.volley.Response
@@ -24,6 +26,7 @@ class AnimationTimePagerFragment : Fragment() {
     var viewPager2:ViewPager2 ?= null
     var pagerTabDay:TabLayout ?= null
     var textTest:TextView ?= null
+    var recommendAnimation:RecyclerView ?= null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,11 +34,15 @@ class AnimationTimePagerFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view:View = inflater.inflate(R.layout.fragment_animation_home_page, container, false)
+        //时间表
         viewPager2 = view.findViewById(R.id.pagerAnimationTime)
         pagerTabDay = view.findViewById(R.id.pagerTabDay)
 
 
         textTest = view.findViewById(R.id.textView3)
+
+        //推荐
+        recommendAnimation = view.findViewById(R.id.recommendAnimation)
 
         return view
     }
@@ -44,6 +51,7 @@ class AnimationTimePagerFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         val viewModel = ViewModelProvider(requireActivity()).get(MyViewModel::class.java)
 
+        //时间表
         val adapter = animationTimePagerAdapter(viewModel,requireActivity()).apply {
             viewPager2?.adapter = this
         }
@@ -82,5 +90,12 @@ class AnimationTimePagerFragment : Fragment() {
             adapter.submitList(it)
             //adapter.notifyDataSetChanged()
         })
+
+
+        //推荐
+        recommendAnimation.apply {
+            this?.layoutManager = LinearLayoutManager(requireContext())
+
+        }
     }
 }

@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.android.volley.Request
@@ -31,7 +30,7 @@ class AnimationTimePagerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view:View = inflater.inflate(R.layout.fragment_animation_time_pager, container, false)
+        val view:View = inflater.inflate(R.layout.fragment_animation_home_page, container, false)
         viewPager2 = view.findViewById(R.id.pagerAnimationTime)
         pagerTabDay = view.findViewById(R.id.pagerTabDay)
 

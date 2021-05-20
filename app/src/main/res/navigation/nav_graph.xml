@@ -14,5 +14,5 @@
         android:id="@+id/animationTimePagerFragment"
         android:name="com.c653d0.kotlinstudy.fragment.AnimationTimePagerFragment"
         android:label="fragment_animation_time_pager"
-        tools:layout="@layout/fragment_animation_time_pager" />
+        tools:layout="@layout/fragment_animation_home_page" />
 </navigation>

@@ -18,7 +18,7 @@ import com.android.volley.toolbox.Volley
 import com.c653d0.kotlinstudy.MyStringRequest
 import com.c653d0.kotlinstudy.MyViewModel
 import com.c653d0.kotlinstudy.R
-import com.c653d0.kotlinstudy.animationTimePagerAdapter
+import com.c653d0.kotlinstudy.home.timeTable.animationTimePagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -52,7 +52,10 @@ class AnimationTimePagerFragment : Fragment() {
         val viewModel = ViewModelProvider(requireActivity()).get(MyViewModel::class.java)
 
         //时间表
-        val adapter = animationTimePagerAdapter(viewModel,requireActivity()).apply {
+        val adapter = animationTimePagerAdapter(
+            viewModel,
+            requireActivity()
+        ).apply {
             viewPager2?.adapter = this
         }
 

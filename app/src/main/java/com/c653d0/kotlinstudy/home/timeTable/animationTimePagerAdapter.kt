@@ -1,8 +1,5 @@
-package com.c653d0.kotlinstudy
+package com.c653d0.kotlinstudy.home.timeTable
 
-import android.app.Application
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +8,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.c653d0.kotlinstudy.FanJvLinkList
+import com.c653d0.kotlinstudy.HomeTimeTableAdapter
+import com.c653d0.kotlinstudy.MyViewModel
+import com.c653d0.kotlinstudy.R
 
-class animationTimePagerAdapter(private val viewModel: MyViewModel,private val activit:LifecycleOwner) : ListAdapter<FanJvLinkList, AnimationPagerViewHolder>(DiffCallBack) {
+class animationTimePagerAdapter(private val viewModel: MyViewModel, private val activit:LifecycleOwner) : ListAdapter<FanJvLinkList, AnimationPagerViewHolder>(
+    DiffCallBack
+) {
 
     object DiffCallBack : DiffUtil.ItemCallback<FanJvLinkList>() {
         override fun areItemsTheSame(oldItem: FanJvLinkList, newItem: FanJvLinkList): Boolean {
@@ -27,7 +30,10 @@ class animationTimePagerAdapter(private val viewModel: MyViewModel,private val a
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimationPagerViewHolder {
         LayoutInflater.from(parent.context).inflate(R.layout.pager_item_anima_time_table,parent,false).apply{
-            val holder = AnimationPagerViewHolder(this)
+            val holder =
+                AnimationPagerViewHolder(
+                    this
+                )
             return holder
         }
     }

@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull
 
 class  HomeTimeTableAdapter(viewModel:MyViewModel) : RecyclerView.Adapter<HomeTimeTableAdapter.TimeTableTileViewHolder>() {
     private val TAG = "adapterTest"
+    private val TAG1 = "adapterContentTest"
 
     private val viewModel = viewModel
     private var allFanJvList = FanJvLinkList()
@@ -62,10 +63,10 @@ class  HomeTimeTableAdapter(viewModel:MyViewModel) : RecyclerView.Adapter<HomeTi
         var res = "${position+1}."+fanJv.getTitle()
 
 
-        Log.d(TAG, "onBindViewHolder: $res")
-
         holder.fanJvText.text = res
-        holder.latestEpisode.text = head?.getEpisode()
+        holder.latestEpisode.text = fanJv.getEpisode()
+
+        Log.d(TAG1, "onBindViewHolder: "+"episode:"+fanJv.getEpisode() + "    res = "+res)
 
         holder.fanJvText.setOnClickListener(View.OnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)

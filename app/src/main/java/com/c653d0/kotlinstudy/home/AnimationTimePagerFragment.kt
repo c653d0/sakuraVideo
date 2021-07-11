@@ -39,10 +39,6 @@ class AnimationTimePagerFragment : Fragment() {
         pagerTabDay = view.findViewById(R.id.pagerTabDay)
 
 
-        textTest = view.findViewById(R.id.textView3)
-
-        //推荐
-        recommendAnimation = view.findViewById(R.id.recommendAnimation)
 
         return view
     }
@@ -59,8 +55,6 @@ class AnimationTimePagerFragment : Fragment() {
             viewPager2?.adapter = this
         }
 
-        textTest?.text = "\n\n\n\n\n\n\n\n\n\n\n123456\n\n\n\n\n\n\n\n\n\n\n\n\n\n455678\n\n\n\n\n\n\n\n265461\n\n\n"
-
         TabLayoutMediator(pagerTabDay!!, viewPager2!!){ tab, position ->
             when(position){
                 0 -> tab.text = "周一"
@@ -74,7 +68,7 @@ class AnimationTimePagerFragment : Fragment() {
         }.attach()
 
 
-        val url = "http://www.yhdm.io/"
+        val url = "http://www.yhdm.so/"
         val myQueue = Volley.newRequestQueue(requireContext());
         val stringRequest: MyStringRequest = MyStringRequest(
             Request.Method.GET,

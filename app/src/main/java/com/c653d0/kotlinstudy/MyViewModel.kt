@@ -9,6 +9,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     private val fanJvTimeTable:MutableLiveData<ArrayList<FanJvLinkList>> = MutableLiveData()
     private val getYingHuaData:GetYingHuaData = GetYingHuaData()
 
+
     fun getTimeTable(html:String){
         fanJvTimeTable.value =  getYingHuaData.getFanJvTimeTable(html)
     }

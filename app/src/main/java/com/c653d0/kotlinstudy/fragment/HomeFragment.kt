@@ -38,7 +38,7 @@ class HomeFragment : Fragment() {
 
 
         val viewModel:MyViewModel = ViewModelProvider(this).get(MyViewModel::class.java)
-        val adapter = HomeTimeTableAdapter(viewModel)
+        val adapter = HomeTimeTableAdapter(viewModel,requireActivity())
 
         //recyclerViewTimeTable = activity?.findViewById<RecyclerView>(R.id.recyclerViewFanJvTimeTable)
         recyclerViewTimeTable.apply {
@@ -47,7 +47,7 @@ class HomeFragment : Fragment() {
         }
 
 
-        val url = "http://www.yhdm.io/"
+        val url = "http://m.yhdm.so/"
         val myQueue = Volley.newRequestQueue(requireContext());
         val stringRequest: MyStringRequest = MyStringRequest(
             Request.Method.GET,

@@ -56,7 +56,28 @@ class GetYingHuaData {
 
     }
 
+    fun getVideoUrl(html: String):String{
+        //参数为视频地址页的html代码
+        //返回视频真实地址
+
+        Log.d("getUrlTest", "getVideoUrl: html:$html")
+
+
+        //解析html
+        val doc = Jsoup.parse(html)
+        val video = doc.getElementsByClass("bofang")[0]
+        val tmp = video.getElementsByTag("div").attr("data-vid")
+        val url:String = tmp.subSequence(0,tmp.length-4).toString()
+        //val url = video.getElementsByTag("video")[0].attr("href")
+
+        Log.d("getUrlTest", "getVideoUrl: "+url)
+
+        return url
+    }
+
+
     //从一天的li标签中返回链表
+    //时间表需要
     private fun getDataFromElements(elements: Elements):FanJvLinkList {
         val head: FanJvLinkList = FanJvLinkList();
         var start: FanJvLinkList = head

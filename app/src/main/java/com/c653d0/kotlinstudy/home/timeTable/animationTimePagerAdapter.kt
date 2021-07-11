@@ -45,7 +45,7 @@ class animationTimePagerAdapter(private val viewModel: MyViewModel, private val 
         val head = getItem(position)
         val recyclerView = holder.itemView.findViewById<RecyclerView>(R.id.itemPagerRecyclerView)
 
-        val adapter = HomeTimeTableAdapter(viewModel)
+        val adapter = HomeTimeTableAdapter(viewModel,activit)
 
         recyclerView.apply {
 

@@ -79,56 +79,13 @@ class HomeTimeTableAdapter(viewModel: MyViewModel, owner: LifecycleOwner) :
 
         Log.d(TAG1, "onBindViewHolder: " + "episode:" + fanJv.getEpisode() + "    res = " + res)
 
+        //点击事件
         holder.fanJvText.setOnClickListener(View.OnClickListener {
-            val result: MutableLiveData<String> = MutableLiveData()
 
-            val intent = Intent(Intent.ACTION_VIEW)
+            PlayWithVideoPlayer.usePlayer(fanJv.getEpisodeHref(),holder.itemView.context,owner)
 
-            val url: String = fanJv.getEpisodeHref()
-            val player = PlayWithVideoPlayer()
-
-            Log.d("fanJvUrl", "onBindViewHolder: $url")
-
-
-            //获取网址的html
-            val myQueue = Volley.newRequestQueue(holder.itemView.context)
-            val stringRequest: MyStringRequest = MyStringRequest(
-                Request.Method.GET,
-                url,
-                Response.Listener {
-                    //从html中获取视频地址result
-
-                    /*val doc = Jsoup.parse(it)
-                    val video = doc.getElementsByClass("bofang")[0]
-                    val tmp = video.getElementsByTag("div").attr("data-vid")
-                    val url = tmp.subSequence(0,tmp.length-4)*/
-
-
-
-                    //TODO bofang标签下的链接就是播放链接，去掉最后的MP4就行了
-
-                    val geturl: GetYingHuaData = GetYingHuaData()
-                    result.value = geturl.getVideoUrl(it)
-
-                    Log.e(TAG, "usePlayer: "+url.toString())
-                },
-                Response.ErrorListener {
-                    Log.e(TAG, "usePlayer: $it")
-                }
-            )
-            myQueue.add(stringRequest)
-
-            result.observe(owner, Observer {
-                //获取result之后启动播放器
-
-                val uri = Uri.parse(it)
-
-                intent.setDataAndType(uri, "video/*")
-                holder.itemView.context.startActivity(intent)
-                Toast.makeText(holder.itemView.context, fanJv?.getEpisodeHref(), Toast.LENGTH_SHORT)
-                    .show()
-            })
-
+            Toast.makeText(holder.itemView.context, fanJv?.getEpisodeHref(), Toast.LENGTH_SHORT)
+                .show()
 
         })
     }

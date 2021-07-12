@@ -18,9 +18,9 @@ import com.c653d0.kotlinstudy.HomeTimeTableAdapter
 import com.c653d0.kotlinstudy.MyStringRequest
 import com.c653d0.kotlinstudy.MyViewModel
 import com.c653d0.kotlinstudy.R
+import com.c653d0.kotlinstudy.function.PlayWithVideoPlayer
 
 class HomeFragment : Fragment() {
-    var recyclerViewTimeTable: RecyclerView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,7 +28,6 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-        recyclerViewTimeTable = view.findViewById(R.id.recyclerViewFanJvTimeTable)
         return view
     }
 
@@ -38,50 +37,8 @@ class HomeFragment : Fragment() {
 
 
         val viewModel:MyViewModel = ViewModelProvider(this).get(MyViewModel::class.java)
-        val adapter = HomeTimeTableAdapter(viewModel,requireActivity())
-
-        //recyclerViewTimeTable = activity?.findViewById<RecyclerView>(R.id.recyclerViewFanJvTimeTable)
-        recyclerViewTimeTable.apply {
-            this?.layoutManager =LinearLayoutManager(requireContext())
-            this?.adapter = adapter
-        }
 
 
-        val url = "http://m.yhdm.so/"
-        val myQueue = Volley.newRequestQueue(requireContext());
-        val stringRequest: MyStringRequest = MyStringRequest(
-            Request.Method.GET,
-            url,
-            Response.Listener {
-                viewModel.getTimeTable(it)
-                /*viewModel.getTimeTableLiveData().observe(this, Observer {
-                    var res:String = ""
-                    var num = 1
-                    for (list in it){
-                        var start = list.next
-                        while (start != null){
-                            res += "$num"+ start.getTitle() + "\n"
-                            start = start.next
-                            num++
-                        }
-                    }*/
-
-                //Log.d(TAG2, "onCreate: +\n $res")
-                //})
-                /*val getYinghuaData:GetYingHuaData = GetYingHuaData()
-                val res = getYinghuaData.getFanJvTimeTable(it)*/
-            },
-            Response.ErrorListener {
-                Log.e("TAG", "onCreate: $it");
-            }
-        )
-        myQueue.add(stringRequest)
-
-        viewModel.getTimeTableLiveData().observe(requireActivity(), Observer{
-            Log.d("isInCreate", "onActivityCreated: ")
-            adapter.setAllFanJvList(it[0])
-            adapter.notifyDataSetChanged()
-        })
 
     }
 

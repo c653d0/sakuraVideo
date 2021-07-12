@@ -6,6 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -36,6 +40,17 @@ class HomeFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
 
+        val searchEdit:EditText = requireActivity().findViewById(R.id.searchEdit)
+        val searchButton:ImageButton = requireActivity().findViewById(R.id.searchButton)
+
+        searchButton.setOnClickListener {
+            if ("" != searchEdit.text.toString()){
+                Log.d("searchButton", "onActivityCreated: ${searchEdit.text}")
+                //
+            }else{
+                Toast.makeText(requireContext(),"请输入内容",Toast.LENGTH_SHORT).show()
+            }
+        }
         val viewModel:MyViewModel = ViewModelProvider(this).get(MyViewModel::class.java)
 
 

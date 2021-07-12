@@ -3,15 +3,10 @@ package com.c653d0.kotlinstudy.function
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.Volley
 import com.c653d0.kotlinstudy.GetYingHuaData
-import com.c653d0.kotlinstudy.MyStringRequest
 import org.jsoup.Jsoup
 
 

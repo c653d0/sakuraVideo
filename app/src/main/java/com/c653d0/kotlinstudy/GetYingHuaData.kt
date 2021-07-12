@@ -2,7 +2,9 @@ package com.c653d0.kotlinstudy
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
@@ -46,9 +48,9 @@ class GetYingHuaData {
         //Log.d(TAG, "onCreate: getThings\n$allUl")
         //val allLi = allUl.getElementsByTag("li")
 
-        for (element in elements){
+        for (element in elements) {
             val allLi = element.getElementsByTag("li")
-            val tmp:FanJvLinkList = getDataFromElements(allLi)
+            val tmp: FanJvLinkList = getDataFromElements(allLi)
             fanJvTimeList.add(tmp)
         }
 
@@ -62,34 +64,21 @@ class GetYingHuaData {
     }
 
 
-
     //从一天的li标签中返回链表
     //时间表需要
-    private fun getDataFromElements(elements: Elements):FanJvLinkList {
+    private fun getDataFromElements(elements: Elements): FanJvLinkList {
         val head: FanJvLinkList = FanJvLinkList();
         var start: FanJvLinkList = head
 
         //对数据提取
         for (li in elements) {
-            //val contents = li.getElementsByTag("a")
-            /*for (content in contents){
-                val href = content.attr("href")
-                val title:String
-                if ("" == content.attr("title")){
-                    title = content.ownText()
-                }else{
-                    title =content.attr("title")
-                }
 
-
-                Log.d("TAG", "onCreate:\n$href + $title")
-            }*/
             val episode = li.getElementsByTag("a")[0].ownText();
             val episodeHref = "http://www.yhdm.io/" + li.getElementsByTag("a")[0].attr("href");
             val title = li.getElementsByTag("a")[1].attr("title");
             val titleHref = "http://www.yhdm.io/" + li.getElementsByTag("a")[1].attr("href");
 
-            val node: FanJvLinkList = FanJvLinkList(title, titleHref, episode, episodeHref)
+            val node = FanJvLinkList(title, titleHref, episode, episodeHref)
             start.next = node
             start = start.next!!
             Log.d(TAG, "\n名字：$title \n链接：$titleHref \n最新一集：$episode\n最新一集链接：$episodeHref")
@@ -101,12 +90,12 @@ class GetYingHuaData {
     }
 
 
-    companion object{
+    companion object {
 
         //从URl中获取html
         @JvmStatic
-        fun getHtmlFromUrl(url:String, context: Context):MutableLiveData<String>{
-            val result:MutableLiveData<String> = MutableLiveData()
+        fun getHtmlFromUrl(url: String, context: Context): MutableLiveData<String> {
+            val result: MutableLiveData<String> = MutableLiveData()
 
 
             val myQueue = Volley.newRequestQueue(context);
@@ -124,7 +113,49 @@ class GetYingHuaData {
 
             return result
         }
+
+        @JvmStatic
+        fun getSearchResult(
+            url: String,
+            context: Context,
+            owner: LifecycleOwner
+        ): MutableLiveData<SearchPageList> {
+            val result:MutableLiveData<SearchPageList> = MutableLiveData()
+            val head = SearchPageList()
+            var start = head
+            val next = SearchPageList()
+            head.next = next
+            start = start.next!!
+
+            getHtmlFromUrl(url, context).observe(owner, Observer {
+                val doc = Jsoup.parse(it)
+                val allList = doc.getElementsByClass("lpic")[0].getElementsByTag("ul")[0]
+                val allLi = allList.getElementsByTag("li")
+
+                //TODO id获取，新的Fragment展示搜索结果
+
+                var title:String =""
+                var pictureUrl:String =""
+                var latestEpisode:String =""
+                var introduction:String =""
+                var id:String =""
+
+
+                //对数据提取
+                for (li in allLi) {
+
+                    title = li.getElementsByTag("a")[1].attr("title")
+                    pictureUrl = li.getElementsByTag("img").attr("src")
+                    latestEpisode = li.getElementsByTag("span")[0].getElementsByTag("font").text()
+                    introduction = li.getElementsByTag("p").text()
+
+                    Log.d("htmlUlContent", "getSearchResult: \n $title \n $pictureUrl \n $latestEpisode \n $introduction\n")
+                }
+
+
+            })
+
+            return result
+        }
     }
-
-
 }

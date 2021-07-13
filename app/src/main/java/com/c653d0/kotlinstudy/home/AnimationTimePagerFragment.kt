@@ -6,12 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -36,8 +35,8 @@ class AnimationTimePagerFragment : Fragment() {
     var recommendAnimation: RecyclerView? = null
 
     //搜索控件
-    var searchEdit: EditText? = null
-    var searchButton: ImageButton? = null
+    var searchImageButton: ImageView? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,8 +49,7 @@ class AnimationTimePagerFragment : Fragment() {
         pagerTabDay = view.findViewById(R.id.pagerTabDay)
 
         //搜索
-        searchEdit = view.findViewById(R.id.searchEdit)
-        searchButton = view.findViewById(R.id.searchButton)
+        searchImageButton = view.findViewById(R.id.searchClick)
 
 
         return view
@@ -62,17 +60,11 @@ class AnimationTimePagerFragment : Fragment() {
         val viewModel = ViewModelProvider(requireActivity()).get(MyViewModel::class.java)
 
         //搜索
-        searchButton?.setOnClickListener {
-            if ("" != searchEdit?.text.toString()) {
-                //搜索逻辑
-                var url = "http://www.yhdm.so/search/"+searchEdit?.text
-                Log.d("searchButton", "onActivityCreated: $url")
-                GetYingHuaData.getSearchResult(url,requireContext(),requireActivity())
-
-            } else {
-                Toast.makeText(requireContext(), "请输入内容", Toast.LENGTH_SHORT).show()
-            }
+        searchImageButton?.setOnClickListener {
+            val controller: NavController = Navigation.findNavController(it)
+            controller.navigate(R.id.action_animationTimePagerFragment_to_searchPageFragment)
         }
+
 
         //时间表
         val adapter = animationTimePagerAdapter(

@@ -3,7 +3,10 @@ package com.c653d0.kotlinstudy.home.timeTable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.lifecycle.*
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -13,7 +16,10 @@ import com.c653d0.kotlinstudy.HomeTimeTableAdapter
 import com.c653d0.kotlinstudy.MyViewModel
 import com.c653d0.kotlinstudy.R
 
-class animationTimePagerAdapter(private val viewModel: MyViewModel, private val activit:LifecycleOwner) : ListAdapter<FanJvLinkList, AnimationPagerViewHolder>(
+class animationTimePagerAdapter(
+    private val viewModel: MyViewModel,
+    private val activit: LifecycleOwner
+) : ListAdapter<FanJvLinkList, AnimationPagerViewHolder>(
     DiffCallBack
 ) {
 
@@ -28,8 +34,11 @@ class animationTimePagerAdapter(private val viewModel: MyViewModel, private val 
 
     }
 
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimationPagerViewHolder {
-        LayoutInflater.from(parent.context).inflate(R.layout.pager_item_anima_time_table,parent,false).apply{
+        LayoutInflater.from(parent.context)
+            .inflate(R.layout.pager_item_anima_time_table, parent, false).apply {
             val holder =
                 AnimationPagerViewHolder(
                     this
@@ -45,7 +54,8 @@ class animationTimePagerAdapter(private val viewModel: MyViewModel, private val 
         val head = getItem(position)
         val recyclerView = holder.itemView.findViewById<RecyclerView>(R.id.itemPagerRecyclerView)
 
-        val adapter = HomeTimeTableAdapter(viewModel,activit)
+
+        val adapter = HomeTimeTableAdapter(viewModel, activit)
 
         recyclerView.apply {
 
@@ -66,4 +76,5 @@ class animationTimePagerAdapter(private val viewModel: MyViewModel, private val 
     }
 
 }
+
 class AnimationPagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

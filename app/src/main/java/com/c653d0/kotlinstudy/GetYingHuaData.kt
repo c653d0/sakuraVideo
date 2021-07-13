@@ -115,17 +115,15 @@ class GetYingHuaData {
         }
 
         @JvmStatic
+        //获取搜索结果
         fun getSearchResult(
             url: String,
             context: Context,
             owner: LifecycleOwner
-        ): MutableLiveData<SearchPageList> {
-            val result:MutableLiveData<SearchPageList> = MutableLiveData()
-            val head = SearchPageList()
-            var start = head
-            val next = SearchPageList()
-            head.next = next
-            start = start.next!!
+        ): MutableLiveData<ArrayList<SearchPageList>> {
+
+
+            val result:MutableLiveData<ArrayList<SearchPageList>> = MutableLiveData()
 
             getHtmlFromUrl(url, context).observe(owner, Observer {
                 val doc = Jsoup.parse(it)
@@ -140,6 +138,7 @@ class GetYingHuaData {
                 var introduction:String =""
                 var id:String =""
 
+                val list = ArrayList<SearchPageList>()
 
                 //对数据提取
                 for (li in allLi) {
@@ -148,11 +147,17 @@ class GetYingHuaData {
                     pictureUrl = li.getElementsByTag("img").attr("src")
                     latestEpisode = li.getElementsByTag("span")[0].getElementsByTag("font").text()
                     introduction = li.getElementsByTag("p").text()
+                    val href:String = li.getElementsByTag("a")[0].attr("href")
+                    id = href.substring(6 until href.indexOf('.'))
 
-                    Log.d("htmlUlContent", "getSearchResult: \n $title \n $pictureUrl \n $latestEpisode \n $introduction\n")
+                    Log.d("htmlUlContent", "getSearchResult: " +
+                            "\n $title \n $pictureUrl \n $latestEpisode \n $introduction\n $id")
+                    val tmp = SearchPageList(title,pictureUrl, latestEpisode, introduction, id)
+
+                    list.add(tmp)
                 }
 
-
+                result.value = list
             })
 
             return result

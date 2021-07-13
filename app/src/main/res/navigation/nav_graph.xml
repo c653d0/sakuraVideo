@@ -14,5 +14,16 @@
         android:id="@+id/animationTimePagerFragment"
         android:name="com.c653d0.kotlinstudy.home.AnimationTimePagerFragment"
         android:label="fragment_animation_time_pager"
-        tools:layout="@layout/fragment_animation_home_page" />
+        tools:layout="@layout/fragment_animation_home_page" >
+        <action
+            android:id="@+id/action_animationTimePagerFragment_to_searchPageFragment"
+            app:destination="@id/searchPageFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchPageFragment"
+        android:name="com.c653d0.kotlinstudy.SearchPageFragment"
+        android:label="fragment_search_page"
+        tools:layout="@layout/fragment_search_page" />
 </navigation>

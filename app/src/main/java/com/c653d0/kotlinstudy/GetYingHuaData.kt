@@ -165,11 +165,10 @@ class GetYingHuaData {
 
         @JvmStatic
         //获取详情页的播放列表
-        fun getPlayList(id:String,context: Context,owner: LifecycleOwner) : MutableLiveData<ArrayList<PlayListData>>{
+        fun getPlayList(url:String,context: Context,owner: LifecycleOwner) : MutableLiveData<ArrayList<PlayListData>>{
 
             val result:MutableLiveData<ArrayList<PlayListData>> = MutableLiveData()
 
-            val url = "http://www.yhdm.so/show/$id.html"
             var title = ""
             var moveUrl = ""
 
@@ -191,6 +190,24 @@ class GetYingHuaData {
                 result.value = list
             })
 
+
+            return result
+        }
+
+        @JvmStatic
+        //获取标题，图片，简介信息
+        fun getInfo(url:String,context: Context,owner: LifecycleOwner):MutableLiveData<DetailsData>{
+            val result = MutableLiveData<DetailsData>()
+
+            getHtmlFromUrl(url,context).observe(owner, Observer {
+                val elements = Jsoup.parse(it)
+                val picture = elements.getElementsByClass("splay")[0].getElementsByTag("img").attr("src")
+                val title = elements.getElementsByClass("splay")[0].getElementsByTag("a").text()
+                val introduction = elements.getElementsByClass("info").text()
+
+                val tmp = DetailsData(title,picture,introduction)
+                result.value = tmp
+            })
 
             return result
         }

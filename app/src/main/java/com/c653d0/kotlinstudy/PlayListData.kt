@@ -7,4 +7,6 @@ class PlayListData(
 
     fun getMoveUrl() = moveUrl
     fun getTitle() = title
+
+
 }

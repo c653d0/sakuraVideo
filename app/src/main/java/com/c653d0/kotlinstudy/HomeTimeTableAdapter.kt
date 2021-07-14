@@ -2,6 +2,7 @@ package com.c653d0.kotlinstudy
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.Response
@@ -80,14 +83,36 @@ class HomeTimeTableAdapter(viewModel: MyViewModel, owner: LifecycleOwner) :
         Log.d(TAG1, "onBindViewHolder: " + "episode:" + fanJv.getEpisode() + "    res = " + res)
 
         //点击事件
-        holder.itemView.setOnClickListener(View.OnClickListener {
-
-            PlayWithVideoPlayer.usePlayer(fanJv.getEpisodeHref(),holder.itemView.context,owner)
-
-            Toast.makeText(holder.itemView.context, fanJv?.getEpisodeHref(), Toast.LENGTH_SHORT)
+        /*holder.latestEpisode.setOnClickListener(View.OnClickListener {
+            Toast.makeText(holder.itemView.context, "加载中", Toast.LENGTH_SHORT)
                 .show()
 
+            PlayWithVideoPlayer.usePlayer(fanJv.getEpisodeHref(),holder.itemView.context,owner)
         })
+        holder.fanJvText.setOnClickListener {
+            val v = it
+
+            val url : String = fanJv.getTitleHref()
+
+
+            GetYingHuaData.getInfo(url,holder.itemView.context,owner).observe(owner, Observer {
+                val bundle = Bundle()
+                bundle.putString("resTitle",it.getAnimeTitle())
+                bundle.putString("resPicture",it.getAnimePic())
+                bundle.putString("resIntroduction",it.getAnimeIntroduction())
+                bundle.putString("resUrl",url)
+
+                val controller = Navigation.findNavController(v)
+                controller.navigate(R.id.action_animationTimePagerFragment_to_detailsFragment,bundle)
+            })
+        }*/
+
+        holder.itemView.setOnClickListener {
+            Toast.makeText(holder.itemView.context, "加载中", Toast.LENGTH_SHORT)
+                .show()
+
+            PlayWithVideoPlayer.usePlayer(fanJv.getEpisodeHref(),holder.itemView.context,owner)
+        }
     }
 
     class TimeTableTileViewHolder(@NotNull itemView: View) : RecyclerView.ViewHolder(itemView) {

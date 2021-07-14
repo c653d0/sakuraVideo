@@ -5,11 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -21,7 +19,7 @@ class DetailsFragment : Fragment() {
     var animeIntroduction:TextView ?= null
     var chooseNumber:RecyclerView ?= null
 
-    var animationId:String = ""
+    var animationUrl:String = ""
 
 
     override fun onCreateView(
@@ -43,7 +41,7 @@ class DetailsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        animationId = requireArguments().getString("resId")!!
+        animationUrl = requireArguments().getString("resUrl")!!
         animeTitle!!.text =requireArguments().getString("resTitle")
         animeIntroduction!!.text = requireArguments().getString("resIntroduction")
 
@@ -57,7 +55,7 @@ class DetailsFragment : Fragment() {
             this.adapter = mAdapter
         }
 
-        GetYingHuaData.getPlayList(animationId,requireContext(),requireActivity()).observe(requireActivity(),
+        GetYingHuaData.getPlayList(animationUrl,requireContext(),requireActivity()).observe(requireActivity(),
             Observer {
                 mAdapter.list = it
                 mAdapter.notifyDataSetChanged()

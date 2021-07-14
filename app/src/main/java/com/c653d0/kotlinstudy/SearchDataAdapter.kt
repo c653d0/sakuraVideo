@@ -1,10 +1,13 @@
 package com.c653d0.kotlinstudy
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import org.jetbrains.annotations.NotNull
 
@@ -29,6 +32,19 @@ class SearchDataAdapter : RecyclerView.Adapter<SearchDataAdapter.SearchDataViewH
         holder.searchTitle.text = allSearchResultList[position].getTitle()
         holder.searchIntroduction.text = holder.itemView.context.getString(R.string.introduction)+allSearchResultList[position].getIntroduction()
         holder.searchEpisode.text = allSearchResultList[position].getLatestEpisode()
+
+
+        //点击事件，跳转到详情页
+        holder.itemView.setOnClickListener(View.OnClickListener {
+            val controller:NavController = Navigation.findNavController(it)
+            val bundle = Bundle()
+            bundle.putString("resId",allSearchResultList[position].getId())
+            bundle.putString("resPicture",allSearchResultList[position].getPictureUrl())
+            bundle.putString("resTitle",allSearchResultList[position].getTitle())
+            bundle.putString("resIntroduction",allSearchResultList[position].getIntroduction())
+
+            controller.navigate(R.id.action_searchPageFragment_to_detailsFragment,bundle)
+        })
     }
 
     class SearchDataViewHolder(@NotNull itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -3,6 +3,7 @@ package com.c653d0.kotlinstudy.function
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -25,6 +26,8 @@ class PlayWithVideoPlayer() {
                 val video = doc.getElementsByClass("bofang")[0]
                 val tmp = video.getElementsByTag("div").attr("data-vid")
                 val url: Uri = Uri.parse(tmp.subSequence(0,tmp.length-4).toString())
+
+                Log.d("movBasicUrl", "usePlayer: $url")
 
                 val intent:Intent = Intent(Intent.ACTION_VIEW)
                 intent.setDataAndType(url,"video/*")

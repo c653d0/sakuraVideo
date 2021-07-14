@@ -25,5 +25,14 @@
         android:id="@+id/searchPageFragment"
         android:name="com.c653d0.kotlinstudy.SearchPageFragment"
         android:label="fragment_search_page"
-        tools:layout="@layout/fragment_search_page" />
+        tools:layout="@layout/fragment_search_page" >
+        <action
+            android:id="@+id/action_searchPageFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.c653d0.kotlinstudy.DetailsFragment"
+        android:label="fragment_details"
+        tools:layout="@layout/fragment_details" />
 </navigation>

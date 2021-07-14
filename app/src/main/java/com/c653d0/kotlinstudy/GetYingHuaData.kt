@@ -74,7 +74,7 @@ class GetYingHuaData {
         for (li in elements) {
 
             val episode = li.getElementsByTag("a")[0].ownText();
-            val episodeHref = "http://www.yhdm.io/" + li.getElementsByTag("a")[0].attr("href");
+            val episodeHref = "http://www.yhdm.io" + li.getElementsByTag("a")[0].attr("href");
             val title = li.getElementsByTag("a")[1].attr("title");
             val titleHref = "http://www.yhdm.io/" + li.getElementsByTag("a")[1].attr("href");
 
@@ -159,6 +159,38 @@ class GetYingHuaData {
 
                 result.value = list
             })
+
+            return result
+        }
+
+        @JvmStatic
+        //获取详情页的播放列表
+        fun getPlayList(id:String,context: Context,owner: LifecycleOwner) : MutableLiveData<ArrayList<PlayListData>>{
+
+            val result:MutableLiveData<ArrayList<PlayListData>> = MutableLiveData()
+
+            val url = "http://www.yhdm.so/show/$id.html"
+            var title = ""
+            var moveUrl = ""
+
+            getHtmlFromUrl(url, context).observe(owner, Observer {
+                val list:ArrayList<PlayListData> = ArrayList()
+                val elements = Jsoup.parse(it)
+                val ul = elements.getElementsByClass("movurl")[0]
+                val allLi = ul.getElementsByTag("li")
+
+                for (li in allLi){
+                    title = li.getElementsByTag("a").text()
+                    moveUrl = "http://www.yhdm.so"+li.getElementsByTag("a").attr("href")
+
+                    list.add(PlayListData(moveUrl, title))
+
+                    Log.d("getPlayList", "getPlayList: $title + $moveUrl")
+                }
+
+                result.value = list
+            })
+
 
             return result
         }

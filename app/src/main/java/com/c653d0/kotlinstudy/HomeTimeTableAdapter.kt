@@ -80,7 +80,7 @@ class HomeTimeTableAdapter(viewModel: MyViewModel, owner: LifecycleOwner) :
         Log.d(TAG1, "onBindViewHolder: " + "episode:" + fanJv.getEpisode() + "    res = " + res)
 
         //点击事件
-        holder.fanJvText.setOnClickListener(View.OnClickListener {
+        holder.itemView.setOnClickListener(View.OnClickListener {
 
             PlayWithVideoPlayer.usePlayer(fanJv.getEpisodeHref(),holder.itemView.context,owner)
 

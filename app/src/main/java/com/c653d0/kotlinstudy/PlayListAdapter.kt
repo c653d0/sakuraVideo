@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.c653d0.kotlinstudy.function.PlayWithVideoPlayer
 import org.jetbrains.annotations.NotNull
 

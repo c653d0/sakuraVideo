@@ -37,27 +37,32 @@ class AnimationTimePagerFragment : Fragment() {
     //搜索控件
     var searchImageButton: ImageView? = null
 
+    private var rootView:View ?= null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view: View = inflater.inflate(R.layout.fragment_animation_home_page, container, false)
-        //时间表
-        viewPager2 = view.findViewById(R.id.pagerAnimationTime)
-        pagerTabDay = view.findViewById(R.id.pagerTabDay)
+        if (rootView == null){
+            rootView = inflater.inflate(R.layout.fragment_animation_home_page, container, false)
+        }
 
-        //搜索
-        searchImageButton = view.findViewById(R.id.searchClick)
-
-
-        return view
+        return rootView
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val viewModel = ViewModelProvider(requireActivity()).get(MyViewModel::class.java)
+
+
+        //时间表
+        viewPager2 = requireView().findViewById(R.id.pagerAnimationTime)
+        pagerTabDay = requireView().findViewById(R.id.pagerTabDay)
+
+        //搜索
+        searchImageButton = requireView().findViewById(R.id.searchClick)
+
 
         //搜索
         searchImageButton?.setOnClickListener {
@@ -73,6 +78,8 @@ class AnimationTimePagerFragment : Fragment() {
         ).apply {
             viewPager2?.adapter = this
         }
+        //缓存7页避免重复加载
+        viewPager2!!.offscreenPageLimit = 7
 
         TabLayoutMediator(pagerTabDay!!, viewPager2!!) { tab, position ->
             when (position) {

@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import org.jetbrains.annotations.NotNull
 
 class SearchDataAdapter : RecyclerView.Adapter<SearchDataAdapter.SearchDataViewHolder>() {
@@ -32,6 +33,8 @@ class SearchDataAdapter : RecyclerView.Adapter<SearchDataAdapter.SearchDataViewH
         holder.searchTitle.text = allSearchResultList[position].getTitle()
         holder.searchIntroduction.text = holder.itemView.context.getString(R.string.introduction)+allSearchResultList[position].getIntroduction()
         holder.searchEpisode.text = allSearchResultList[position].getLatestEpisode()
+
+        Glide.with(holder.itemView.context).load(allSearchResultList[position].getPictureUrl()).into(holder.searchPicture)
 
 
         //点击事件，跳转到详情页

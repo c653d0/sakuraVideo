@@ -25,14 +25,16 @@ class SearchPageFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_search_page,container,false)
 
-        mSearchView = view.findViewById(R.id.searchPageSearchView)
-        searchResultContent = view.findViewById(R.id.searchResultList)
+
 
         return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        mSearchView = requireView().findViewById(R.id.searchPageSearchView)
+        searchResultContent = requireView().findViewById(R.id.searchResultList)
 
         //跳转到这个fragment自动展开
         mSearchView!!.isIconified = false
@@ -49,7 +51,9 @@ class SearchPageFragment : Fragment() {
             requestFocusFromTouch()
             //设置提示词
             queryHint = "请输入文字"
+
         }
+
 
         //点击搜索框也能展开
         mSearchView!!.setOnClickListener(View.OnClickListener {

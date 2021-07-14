@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
 
 class DetailsFragment : Fragment() {
@@ -45,6 +46,8 @@ class DetailsFragment : Fragment() {
         animationId = requireArguments().getString("resId")!!
         animeTitle!!.text =requireArguments().getString("resTitle")
         animeIntroduction!!.text = requireArguments().getString("resIntroduction")
+
+        Glide.with(requireContext()).load(requireArguments().getString("resPicture")).into(animePicture!!)
 
         val mAdapter:PlayListAdapter = PlayListAdapter(requireActivity())
 

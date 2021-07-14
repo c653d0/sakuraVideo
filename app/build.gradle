@@ -50,4 +50,8 @@ dependencies {
 
     implementation 'com.android.volley:volley:1.1.1'
     implementation group: 'org.jsoup', name: 'jsoup', version: '1.8.3'
+
+
+    compile 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 }

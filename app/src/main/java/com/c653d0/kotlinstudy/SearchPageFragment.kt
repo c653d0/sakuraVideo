@@ -77,7 +77,7 @@ class SearchPageFragment : Fragment() {
             override fun onQueryTextSubmit(query: String?): Boolean {
 
                 Log.d("searchTest", "onQueryTextSubmit: \n 搜索:$query")
-                val url = "http://www.yhdm.so/search/$query/"
+                val url = "https://www.sakuradm.tv/vodsearch.html?wd=$query"
                 val resultList = GetYingHuaData.getSearchResult(url,requireContext(),requireActivity())
 
 

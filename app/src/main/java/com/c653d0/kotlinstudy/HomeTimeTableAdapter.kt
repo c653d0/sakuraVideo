@@ -107,11 +107,24 @@ class HomeTimeTableAdapter(viewModel: MyViewModel, owner: LifecycleOwner) :
             })
         }*/
 
-        holder.itemView.setOnClickListener {
+        holder.itemView.setOnClickListener {view ->
             Toast.makeText(holder.itemView.context, "加载中", Toast.LENGTH_SHORT)
                 .show()
+            Log.d(TAG+"urlTest", "onBindViewHolder: ${fanJv.getTitleHref()}")
+            //PlayWithVideoPlayer.usePlayer(fanJv.getEpisodeHref(),holder.itemView.context,owner)
 
-            PlayWithVideoPlayer.usePlayer(fanJv.getEpisodeHref(),holder.itemView.context,owner)
+            GetYingHuaData.getInfo(fanJv.getTitleHref(),holder.itemView.context,owner).observe(owner,
+                Observer {
+                    val controller:NavController = Navigation.findNavController(view)
+                    val bundle = Bundle()
+                    Log.d(TAG+"Introduction", "onBindViewHolder: ${it.getAnimePic()}")
+                    bundle.putString("resUrl",fanJv.getTitleHref())
+                    bundle.putString("resPicture",it.getAnimePic())
+                    bundle.putString("resTitle",it.getAnimeTitle())
+                    bundle.putString("resIntroduction",it.getAnimeIntroduction())
+
+                    controller.navigate(R.id.action_animationTimePagerFragment_to_detailsFragment,bundle)
+                })
         }
     }
 

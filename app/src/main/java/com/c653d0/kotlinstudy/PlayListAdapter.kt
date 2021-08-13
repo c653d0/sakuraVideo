@@ -35,6 +35,8 @@ class PlayListAdapter(owner: LifecycleOwner) : RecyclerView.Adapter<PlayListAdap
     }
 
     override fun onBindViewHolder(holder: PlayListViewHolder, position: Int) {
+        //TODO(reason: Multiple source switching)
+
         holder.title.text = list[position].getTitle()
 
         holder.itemView.setOnClickListener {

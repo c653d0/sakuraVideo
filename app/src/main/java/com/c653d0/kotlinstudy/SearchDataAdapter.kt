@@ -41,7 +41,7 @@ class SearchDataAdapter : RecyclerView.Adapter<SearchDataAdapter.SearchDataViewH
         holder.itemView.setOnClickListener(View.OnClickListener {
             val controller:NavController = Navigation.findNavController(it)
             val bundle = Bundle()
-            bundle.putString("resUrl","http://www.yhdm.so/show/"+allSearchResultList[position].getId()+".html")
+            bundle.putString("resUrl","https://www.sakuradm.tv/"+allSearchResultList[position].getId())
             bundle.putString("resPicture",allSearchResultList[position].getPictureUrl())
             bundle.putString("resTitle",allSearchResultList[position].getTitle())
             bundle.putString("resIntroduction",allSearchResultList[position].getIntroduction())

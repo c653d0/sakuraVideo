@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
+import com.c653d0.kotlinstudy.decrypt.UrlDecrypt
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
 
@@ -42,11 +43,11 @@ class GetYingHuaData {
         var res: String = ""
         //获取到时间表标签
         val doc = Jsoup.parse(html)
-        val uls = doc.getElementsByClass("tlist")[0]
+        val uls = doc.getElementsByClass("tists")[0]
         val elements = uls.getElementsByTag("ul")  //一周更新，包含所有ul标签
         //val allUl = elements[elements.size - 1]     //当天更新，处于所有标签的末尾，包含当天的所有li标签
         //Log.d(TAG, "onCreate: getThings\n$allUl")
-        //val allLi = allUl.getElementsByTag("li")
+        //val allLi = allUl.getElementsByTag("li")：
 
         for (element in elements) {
             val allLi = element.getElementsByTag("li")
@@ -74,9 +75,9 @@ class GetYingHuaData {
         for (li in elements) {
 
             val episode = li.getElementsByTag("a")[0].ownText();
-            val episodeHref = "http://www.yhdm.io" + li.getElementsByTag("a")[0].attr("href");
+            val episodeHref = "https://www.sakuradm.tv/" + li.getElementsByTag("a")[0].attr("href");
             val title = li.getElementsByTag("a")[1].attr("title");
-            val titleHref = "http://www.yhdm.io/" + li.getElementsByTag("a")[1].attr("href");
+            val titleHref = "https://www.sakuradm.tv/" + li.getElementsByTag("a")[1].attr("href");
 
             val node = FanJvLinkList(title, titleHref, episode, episodeHref)
             start.next = node
@@ -102,10 +103,10 @@ class GetYingHuaData {
             val stringRequest: MyStringRequest = MyStringRequest(
                 Request.Method.GET,
                 url,
-                Response.Listener {
+                {
                     result.value = it
                 },
-                Response.ErrorListener {
+                {
                     Log.e("TAG", "onCreate: $it");
                 }
             )
@@ -122,12 +123,13 @@ class GetYingHuaData {
             owner: LifecycleOwner
         ): MutableLiveData<ArrayList<SearchPageList>> {
 
+            Log.d("sError", "getSearchResult: $url")
 
             val result:MutableLiveData<ArrayList<SearchPageList>> = MutableLiveData()
 
             getHtmlFromUrl(url, context).observe(owner, Observer {
                 val doc = Jsoup.parse(it)
-                val allList = doc.getElementsByClass("lpic")[0].getElementsByTag("ul")[0]
+                val allList = doc.getElementsByClass("pics")[0].getElementsByTag("ul")[0]
                 val allLi = allList.getElementsByTag("li")
 
                 //TODO id获取，新的Fragment展示搜索结果
@@ -145,10 +147,10 @@ class GetYingHuaData {
 
                     title = li.getElementsByTag("a")[1].attr("title")
                     pictureUrl = li.getElementsByTag("img").attr("src")
-                    latestEpisode = li.getElementsByTag("span")[0].getElementsByTag("font").text()
+                    latestEpisode = li.getElementsByTag("span")[0].text()
                     introduction = li.getElementsByTag("p").text()
                     val href:String = li.getElementsByTag("a")[0].attr("href")
-                    id = href.substring(6 until href.indexOf('.'))
+                    id = href
 
                     Log.d("htmlUlContent", "getSearchResult: " +
                             "\n $title \n $pictureUrl \n $latestEpisode \n $introduction\n $id")
@@ -180,7 +182,7 @@ class GetYingHuaData {
 
                 for (li in allLi){
                     title = li.getElementsByTag("a").text()
-                    moveUrl = "http://www.yhdm.so"+li.getElementsByTag("a").attr("href")
+                    moveUrl = "https://www.sakuradm.tv/"+li.getElementsByTag("a").attr("href")
 
                     list.add(PlayListData(moveUrl, title))
 
@@ -201,14 +203,29 @@ class GetYingHuaData {
 
             getHtmlFromUrl(url,context).observe(owner, Observer {
                 val elements = Jsoup.parse(it)
-                val picture = elements.getElementsByClass("splay")[0].getElementsByTag("img").attr("src")
-                val title = elements.getElementsByClass("splay")[0].getElementsByTag("a").text()
-                val introduction = elements.getElementsByClass("info").text()
-
+                val picture = elements.getElementsByClass("tpic")[0].getElementsByTag("img").attr("src")
+                val title = elements.getElementsByClass("spay")[0].getElementsByTag("a").text()
+                val introduction = elements.getElementsByClass("info")[1].getElementsByTag("p")[0].text()
                 val tmp = DetailsData(title,picture,introduction)
                 result.value = tmp
             })
 
+            return result
+        }
+
+        fun getRealUrl(url:String, context: Context, owner: LifecycleOwner) : MutableLiveData<String> {
+            val result = MutableLiveData<String>()
+
+            val html: MutableLiveData<String> = GetYingHuaData.getHtmlFromUrl(url, context)
+
+            html.observe(owner, Observer {
+                val doc = Jsoup.parse(it)
+                val includeHref = doc.body()
+                    .getElementsByClass("Player")[0].getElementsByTag("script")[0].toString()
+                val href = includeHref.split(",")[7].split("\"")[3]
+                val url = UrlDecrypt.jtDecrypt(href)
+                result.value = url
+            })
             return result
         }
     }

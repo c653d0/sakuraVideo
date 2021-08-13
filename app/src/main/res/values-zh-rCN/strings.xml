@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">kotlinStudy</string>
     <string name="introduction">简介：</string>
+    <string name="anima_download">下载</string>
 </resources>

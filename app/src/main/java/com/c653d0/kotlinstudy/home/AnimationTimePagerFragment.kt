@@ -95,13 +95,14 @@ class AnimationTimePagerFragment : Fragment() {
 
 
         //val url = "http://www.yhdm.so/"
-        val url = "https://www.sakuradm.tv/"
+        //val url = "https://www.sakuradm.tv/"
+        val url = "http://www.dm88.me/"
         val myQueue = Volley.newRequestQueue(requireContext())
         val stringRequest: MyStringRequest = MyStringRequest(
             Request.Method.GET,
             url,
             {
-                Log.d("Html", "onActivityCreated: ${it}")
+                Log.d("Html", "onActivityCreated: $it")
                 viewModel.getTimeTable(it)
             },
             {

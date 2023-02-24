@@ -19,6 +19,8 @@ class SearchPageFragment : Fragment() {
     var mSearchView:SearchView ?= null
     var searchResultContent:RecyclerView ?= null
 
+    private val searchUrl = "http://dm88.me/search.asp?searchword="
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -77,7 +79,7 @@ class SearchPageFragment : Fragment() {
             override fun onQueryTextSubmit(query: String?): Boolean {
 
                 Log.d("searchTest", "onQueryTextSubmit: \n 搜索:$query")
-                val url = "https://www.sakuradm.tv/vodsearch.html?wd=$query"
+                val url = searchUrl+query
                 val resultList = GetYingHuaData.getSearchResult(url,requireContext(),requireActivity())
 
 

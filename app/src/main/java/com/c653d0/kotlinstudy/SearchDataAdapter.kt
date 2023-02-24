@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull
 
 class SearchDataAdapter : RecyclerView.Adapter<SearchDataAdapter.SearchDataViewHolder>() {
     private var allSearchResultList:ArrayList<SearchPageList> = ArrayList()
+    private val sakuraUrl = "http://www.dm88.me/"
 
     fun setResultList(list:ArrayList<SearchPageList>){
         this.allSearchResultList = list
@@ -41,7 +42,7 @@ class SearchDataAdapter : RecyclerView.Adapter<SearchDataAdapter.SearchDataViewH
         holder.itemView.setOnClickListener(View.OnClickListener {
             val controller:NavController = Navigation.findNavController(it)
             val bundle = Bundle()
-            bundle.putString("resUrl","https://www.sakuradm.tv/"+allSearchResultList[position].getId())
+            bundle.putString("resUrl",sakuraUrl+allSearchResultList[position].getId())
             bundle.putString("resPicture",allSearchResultList[position].getPictureUrl())
             bundle.putString("resTitle",allSearchResultList[position].getTitle())
             bundle.putString("resIntroduction",allSearchResultList[position].getIntroduction())

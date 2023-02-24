@@ -22,8 +22,5 @@ class MainActivity : AppCompatActivity() {
         val viewModel = ViewModelProvider(this,ViewModelProvider.AndroidViewModelFactory(this.application)).get(MyViewModel::class.java)
 
         //val textView = findViewById<TextView>(R.id.textView)
-
-
-
     }
 }

@@ -4,9 +4,6 @@ class PlayListData(
     private val moveUrl:String,
     private val title:String
 ) {
-
     fun getMoveUrl() = moveUrl
     fun getTitle() = title
-
-
 }

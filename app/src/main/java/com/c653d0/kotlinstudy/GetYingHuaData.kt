@@ -99,7 +99,7 @@ class GetYingHuaData {
 
 
     companion object {
-        private val sakuraUrl = "https://www.dm88.me/"
+        private val sakuraUrl = "http://www.dm88.me/"
 
         //从URl中获取html
         @JvmStatic

@@ -35,10 +35,20 @@ class PlayWithVideoPlayer() {
             html.observe(owner, Observer {
                 val doc = Jsoup.parse(it)
                 val includeHref = doc.body().getElementsByTag("script")[4].toString()
-                val m3u8Url = getUrl(includeHref)
-                Log.d(TAG, "usePlayer: $m3u8Url")
-                val url = Uri.parse(m3u8Url)
-                Log.d(TAG, "usePlayer: $url")
+                val regex = Regex("(?<=\"url\":\").*(?=\",\"url_next)")
+                val findContent = regex.findAll(includeHref)
+                var beforeUrl:String = ""
+                findContent.forEach {   x->
+                    beforeUrl = x.value
+                    println(x.value)
+                }
+
+                val split = beforeUrl.split('\\')
+                val url = StringBuilder()
+                repeat(split.size){
+                    url.append(split[it])
+                }
+                Log.d(TAG, "usePlayer: ${url.toString()}")
 
                 //Log.d("testTag", "usePlayer: $url")
                 //val tmp = video.getElementsByTag("table")[0].getElementsByTag("iframe").attr("src")
@@ -52,42 +62,11 @@ class PlayWithVideoPlayer() {
                 //println("movBasicUrl usePlayer: $doc")
 
                 val intent:Intent = Intent(Intent.ACTION_VIEW)
-                intent.setDataAndType(url,"video/*")
+                intent.setDataAndType(Uri.parse(url.toString()),"video/*")
                 context.startActivity(intent)
             })
 
 
-        }
-
-        fun getUrl(string: String) : String{
-            val url = string.toCharArray()
-            val result = StringBuilder()
-            var index = 0
-            repeat(url.size){ i ->
-                if(url[i] == '"'){
-                    if(url[i+1] == 'u'){
-                        if(url[i+2] == 'r'){
-                            if(url[i+3] == 'l'){
-                                if(url[i+4] == '"'){
-                                    if(url[i+5] == ':'){
-                                        if(url[i+6] == '"'){
-                                            index = i+7
-                                            while (url[index] != '"'){
-                                                if(url[index] != '\\'){
-                                                    result.append(url[index])
-                                                }
-                                                index++
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            return result.toString()
         }
 
     }

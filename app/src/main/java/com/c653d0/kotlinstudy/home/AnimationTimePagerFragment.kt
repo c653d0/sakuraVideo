@@ -94,9 +94,10 @@ class AnimationTimePagerFragment : Fragment() {
         }.attach()
 
 
-        //val url = "http://www.yhdm.so/"
-        //val url = "https://www.sakuradm.tv/"
-        val url = "http://www.dm88.me/"
+        // val url = "http://www.yhdm.so/"
+        // val url = "https://www.sakuradm.tv/"
+        // val url = "http://www.dm88.me/"
+        val url = "https://www.iyhdmw.com/"
         val myQueue = Volley.newRequestQueue(requireContext())
         val stringRequest: MyStringRequest = MyStringRequest(
             Request.Method.GET,

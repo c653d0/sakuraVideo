@@ -27,12 +27,13 @@ class PlayWithVideoPlayer() {
         @JvmStatic
         fun usePlayer(basicUrl:String,context: Context,owner: LifecycleOwner){
 
-            //Log.d("someError", "usePlayer: ${basicUrl}")
+            Log.d("someError", "usePlayer: ${basicUrl}")
 
             val html:MutableLiveData<String> = GetYingHuaData.getHtmlFromUrl(basicUrl,context)
 
 
             html.observe(owner, Observer {
+                Log.d(TAG, "usePlayer: ${it}")
                 val doc = Jsoup.parse(it)
                 val includeHref = doc.body().getElementsByTag("script")[4].toString()
                 val regex = Regex("(?<=\"url\":\").*(?=\",\"url_next)")

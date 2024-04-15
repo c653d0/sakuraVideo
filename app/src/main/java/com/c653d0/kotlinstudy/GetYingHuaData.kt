@@ -15,7 +15,8 @@ import org.jsoup.select.Elements
 class GetYingHuaData {
     val TAG: String = "getYingHuaData"
     //private val sakuraUrl = "https://www.sakuradm.tv/"
-    private val sakuraUrl = "http://www.dm88.me/"
+    // private val sakuraUrl = "http://www.dm88.me/"
+    private val sakuraUrl = "https://www.iyhdmw.com/"
 
     /**
      *                  功能
@@ -45,7 +46,14 @@ class GetYingHuaData {
         var res: String = ""
         //获取到时间表标签
         val doc = Jsoup.parse(html)
-        val uls = doc.getElementsByClass("tab-content")[0]
+        val uls = doc.getElementsByClass("tlist")[0].getElementsByTag("ul")
+
+        for (i in 0..6){
+            val allLi = uls[0].getElementsByTag("li")
+            Log.d(TAG, "getFanJvTimeTable: ${allLi}")
+            val tmp:FanJvLinkList = getDataFromElements(allLi)
+            fanJvTimeList.add(tmp)
+        }
         //print(uls)
         //val elements = uls.getElementsByTag("ul")  //一周更新，包含所有ul标签
         //print(uls.getElementById("week1"))
@@ -53,14 +61,14 @@ class GetYingHuaData {
         //Log.d(TAG, "onCreate: getThings\n$allUl")
         //val allLi = allUl.getElementsByTag("li")：
 
-        for (i in 1..7) {
+        /*for (i in 1..7) {
             val aDayData = uls.getElementById("week$i")
             //Log.d(TAG, "getFanJvTimeTable week data: $aDayData")
             val allLi = aDayData.getElementsByTag("li")
             //Log.d(TAG, "getFanJvTimeTable allLi data $i: $allLi")
             val tmp: FanJvLinkList = getDataFromElements(allLi)
             fanJvTimeList.add(tmp)
-        }
+        }*/
 
         //Log.d("elements", "$elements")
         //Log.d("allUl", "$allUl")
@@ -81,17 +89,17 @@ class GetYingHuaData {
         //对数据提取
         for (li in elements) {
 
-            val episode = li.getElementsByTag("a")[0].getElementsByTag("span")[0].ownText();
+            val episode = li.getElementsByTag("a")[0].ownText();
             val episodeHref = sakuraUrl + li.getElementsByTag("a")[0].attr("href");
-            val title = li.getElementsByTag("a")[0].attr("title");
+            val title = li.getElementsByTag("a")[1].attr("title");
             val titleHref = sakuraUrl + li.getElementsByTag("a")[0].attr("href");
 
             val node = FanJvLinkList(title, titleHref, episode, episodeHref)
             start.next = node
             start = start.next!!
-            Log.d(TAG, "\n名字：$title \n链接：$titleHref \n最新一集：$episode\n最新一集链接：$episodeHref")
-            //textView.text = "名字：$title \n链接：$titleHref \n最新一集：$episode\n最新一集链接：$episodeHref\n\n"+textView.text
-            //res += "名字：$title \n链接：$titleHref \n最新一集：$episode\n最新一集链接：$episodeHref\n\n"
+            // Log.d(TAG, "\n名字：$title \n链接：$titleHref \n最新一集：$episode\n最新一集链接：$episodeHref")
+            // textView.text = "名字：$title \n链接：$titleHref \n最新一集：$episode\n最新一集链接：$episodeHref\n\n"+textView.text
+            // res += "名字：$title \n链接：$titleHref \n最新一集：$episode\n最新一集链接：$episodeHref\n\n"
         }
 
         return head
@@ -99,7 +107,7 @@ class GetYingHuaData {
 
 
     companion object {
-        private val sakuraUrl = "http://www.dm88.me/"
+        private val sakuraUrl = "https://www.iyhdmw.com/"
 
         //从URl中获取html
         @JvmStatic
@@ -185,19 +193,19 @@ class GetYingHuaData {
             getHtmlFromUrl(url, context).observe(owner, Observer {
                 val list:ArrayList<PlayListData> = ArrayList()
                 val elements = Jsoup.parse(it)
-                val ul = elements.getElementById("playlist1")
-                val allLi = ul.getElementsByTag("li")
+                val movUrls = elements.getElementsByClass("main0")[0].getElementsByClass("movurl")
+                for (movUrl in movUrls){
+                    val allLi = movUrl.getElementsByTag("li")
+                    for (li in allLi){
+                        title = li.getElementsByTag("a").text()
+                        moveUrl = sakuraUrl+li.getElementsByTag("a").attr("href")
 
-                for (li in allLi){
-                    title = li.getElementsByTag("a").text()
-                    moveUrl = sakuraUrl+li.getElementsByTag("a").attr("href")
+                        list.add(PlayListData(moveUrl, title))
 
-                    list.add(PlayListData(moveUrl, title))
-
-                    Log.d("getPlayList", "getPlayList: $title + $moveUrl")
+                        Log.d("getPlayList", "getPlayList: $title + $moveUrl")
+                    }
+                    result.value = list
                 }
-
-                result.value = list
             })
 
 
@@ -211,9 +219,9 @@ class GetYingHuaData {
 
             getHtmlFromUrl(url,context).observe(owner, Observer {
                 val elements = Jsoup.parse(it)
-                val picture = elements.getElementsByClass("myui-content__thumb")[0].getElementsByTag("img").attr("src")
-                val title = elements.getElementsByClass("myui-content__detail")[0].getElementsByTag("h1").text()
-                val introduction = elements.getElementsByClass("myui-panel_bd")[0].getElementsByTag("span")[0].text()
+                val picture = elements.getElementsByClass("splay")[0].getElementsByTag("img").attr("src")
+                val title = elements.getElementsByClass("splay")[0].getElementsByTag("a").text()
+                val introduction = elements.getElementsByClass("info")[0].text()
                 val tmp = DetailsData(title,picture,introduction)
                 result.value = tmp
             })
